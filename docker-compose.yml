@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+#  server:
+#    container_name: api_shopper
+#    build: '.'
+#    volumes:
+#      - ./:/node-app
+#      - ./node_modules:/node-app/node_modules
+#    environment:
+#      NODE_ENV: development
+#    depends_on:
+#      - db
+#    links:
+#      - db
+#    ports:
+#      - '9000:9000'
+
+  db:
+    image: 'mongo'
+    container_name: db_shopper
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: shopper              # Create a default database
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongodb-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+
+volumes:
+  mongodb-data:
