@@ -1,14 +1,14 @@
 export const getMimeType = (b64String: string): string => {
   const b64Data = b64String.replace(/^data:.+;base64,/, '')
-  const firstCharacter = b64Data[0];
+  const firstCharacter = b64Data[0]
   switch (firstCharacter) {
     case '/':
-      return 'image/jpeg';
+      return 'image/jpeg'
     case 'i':
-      return 'image/png';
+      return 'image/png'
     case 'U':
-      return 'image/webp';
+      return 'image/webp'
     default:
-      return 'unknown';
+      return 'unknown'
   }
 }

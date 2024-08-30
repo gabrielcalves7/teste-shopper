@@ -1,11 +1,8 @@
 // init-mongo.js
 
-db = db.getSiblingDB('shopper'); // Switch to the shopper database
+db = db.getSiblingDB('shopper')
 
 // Create collections and insert initial data
-
-// Add more collections and initial data as needed
-db = db.getSiblingDB('shopper')
 
 db.createUser({
   user: 'admin',
@@ -16,4 +13,5 @@ db.createUser({
       db: 'admin',
     },
   ],
-});
+})
+

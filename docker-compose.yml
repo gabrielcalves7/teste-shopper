@@ -1,33 +1,40 @@
 version: '3'
 
 services:
-#  server:
-#    container_name: api_shopper
-#    build: '.'
-#    volumes:
-#      - ./:/node-app
-#      - ./node_modules:/node-app/node_modules
-#    environment:
-#      NODE_ENV: development
-#    depends_on:
-#      - db
-#    links:
-#      - db
-#    ports:
-#      - '9000:9000'
+  server:
+    container_name: api_shopper
+    build:
+      context: .  # Specify the build context as the current directory
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./:/node-app  # Sync source code
+      - /node-app/dist  # Preserve dist folder
+      - /node-app/node_modules  # Avoid syncing node_modules
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - db
+    ports:
+      - '9000:9000'
+    networks:
+      - shopper-network
 
   db:
     image: 'mongo'
     container_name: db_shopper
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: shopper              # Create a default database
     ports:
       - '27018:27017'
     volumes:
       - mongodb-data:/data/db
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - shopper-network
 
 volumes:
   mongodb-data:
+
+networks:
+  shopper-network:
+    driver: bridge

@@ -1,15 +1,18 @@
-FROM node:11-alpine
+FROM node:18-alpine
 
 WORKDIR /node-app
 
-COPY package.json .
+COPY package*.json .
 
 RUN npm install --quiet
-
-RUN npm install nodemon -g --quiet
+RUN npm install typescript -g --quiet
 
 COPY . .
 
+# Compile TypeScript files
+RUN tsc
+
 EXPOSE 9000
 
-CMD nodemon -L --watch . app.ts
+# Start the application with the compiled JavaScript file
+CMD ["node", "dist/app.js"]
